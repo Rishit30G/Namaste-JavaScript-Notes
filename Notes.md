@@ -733,6 +733,7 @@ function x() {
 x();
 ```
 - In the above code snippet we have used the conept of closures, so that the count variable cannot be accessed outside the function.
+- `let` is used instead of `var` so that it block scoped i.e value cannot be modified beyond the function 
 
 - Event Listeners are heavy, it takes memory, so whenever you attach an event listener it forms a closure and even when the call stack is empty, still the program will not free up that memory because you never know when someone can click on that button and might need this closure to function  
 - So once we remove this event listener, so all the varibales that were held by this closure are garbage collected 
