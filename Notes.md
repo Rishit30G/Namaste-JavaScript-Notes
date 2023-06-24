@@ -1695,3 +1695,230 @@ function fun(){
 ## [Part 28 Completed](https://www.youtube.com/watch?v=wstwjQ1yqWQ&list=PLlasXeu85E9eLVlWFs-nz5PKXJU4f7Fks&index=8)
 --- 
 <br>
+
+# Namaste JavaScript (Season 2)
+<br> 
+
+## Callback Hell
+- Using callback we can do asynchronous programming in JavaScript
+- We can take a piece of code and pass it as an argument to another function and then that function can  be called at a later point of time
+- Async programming in JavaScript exist because of callback exist 
+
+```javascript
+console.log("Namaste");
+
+ setTimeout( function() {
+    console.log("I am inside the setTimeout function");
+ }, 2000);
+```
+
+- An example of callback hell for a shopping cart application
+
+```javascript
+const cart = ["shoes", "pant", "kurta"];
+api.createOrder(cart, function () {
+  api.proceedToPaymnet(function () {
+    api.showOrderSummary(function () {
+      api.updateWallet(function () {
+        
+      });
+    });
+  });
+});
+```
+- When we have a large codebase and we have so many apis here and there, they are dependent one after the another so we fall into this trap of callback hell 
+- Our code starts to grow horizontally instead of vertically, this style of code is unreadable and unmaintainable
+- The structure is also called `Pyramid of Doom` 
+
+### Inversion of Control 
+- We are blindly trusting our createOrder API that it will call the callback function, but what if it doesnt call the callback function, then we are in trouble
+- The createOrder API is a risky API, it could have potential bugs that it might not call the callback function
+
+ ## [Part 29 Completed](https://youtu.be/yEKtJGha3yM)
+ ---
+ <br>
+
+ ## Promises 
+ - Promises are objects representing the eventual completion of an asynchronous operation and it's resulting value 
+ - They are immutable, you cannot alter a promise once it's resolved, it comes with a lot of trust 
+
+ ```javascript
+ const cart = ["shoes", "hat", "kurta"];
+
+// Will cause callback hell
+createOrder(cart, function(orderId){
+    proceedToPayment(orderId);
+});
+
+//Resolved using promises 
+const promise = createOrder(cart);
+
+// {data: undefined} changes to {data: orderDetails}
+
+promise.then(function(orderId){
+    proceedToPayment(orderId);
+})
+```
+- Promise is an object which has a function called `then` which takes a callback function as an argument
+- It is undefined in the beginning but when the promise is resolved then it gets the data
+- createOrder API is an asnyc operation and it returns a promise object
+- The promise object will be filled with the value after an async time, meanwhile other lines of code will be executed 
+<br></br>
+
+### How is it better ? 
+- Earlier we were `passing` the function into the createOrder API i.e another function, but now we are `attaching` the function to the promise object
+- Promises give us the guarantee that the function present inside the promise object will be called 
+- Promises will call the inner function once and only once
+
+<br></br>
+
+```javascript 
+const GITHUB_API = "https://api.github.com/users/rishit30g";
+const user = fetch(GITHUB_API);
+
+user
+  .then((response) => {
+    if (response.ok) {
+      return response.json();
+    } else {
+      throw new Error("Something went wrong");
+    }
+  })
+  .then((data) => {
+    console.log(data.id);
+  })
+  .catch((error) => {
+    console.log(error);
+  });
+```
+- The promise object contains three things: [[Prototype]], [[PromiseState]], [[PromiseResult]]
+- Prototype will say 'Promise'
+- PromiseState will say 'pending' or 'fulfilled' or 'rejected'
+- PromiseResult will say 'undefined intially' or 'data that will be fetched' or 'error' 
+- Promise Result will be filled with the data that we get from the API after execution of the promise object 
+
+### Promise Chaining 
+
+```javascript
+const cart = ["apple", "orange", "banana"];
+
+
+// Callback Hell
+createOrder(car, function(orderID) {
+    proceedToPaymeNt(orderID, function(status){
+        showOrderStatus(status, function(){
+            updateWalletBalance();
+        });
+    });
+});
+
+
+// Equivalent Code using Promise Chaining 
+const promise = createOrder(cart);
+
+promise.then(function(orderID){
+    return proceedToPaymeNt(orderID);
+}).then(function(status){
+    return showOrderStatus(status);
+}).then(function(){
+    return updateWalletBalance();
+});
+
+```
+## [Part 30 Completed](https://youtu.be/ap-6PPAuK1Y)
+--- 
+<br>
+
+## Promises - Part 2
+
+- Example of Simple promise with resolve and reject 
+```javascript
+const cart = ["shoes", "pants", "kurta"];
+
+const promise = createOrder(cart);
+
+promise.then(function(orderID){
+    console.log("Order ID: ", orderID);
+}).catch(function(err){
+    console.log("Error: ", err.message);
+});
+
+function createOrder(cart){
+     const pr = new Promise(function(resolve, reject){
+        if(isValidCart(cart))
+        {
+            const orderID = "1223";
+            if(orderID)
+            {
+                resolve(orderID);
+            }
+            else{
+                const err = new Error("Invalid Order");
+                reject(err);
+            }
+        }
+        else{
+            const err = new Error("Invalid Cart");
+            reject(err);
+        }
+     })
+     return pr;
+}
+
+function isValidCart(cart){
+    return Array.isArray(cart) && cart.length > 0;
+}
+```
+
+- Example of Promise with Chaining 
+```javascript
+const cart = ["shoes", "pants", "kurta"];
+
+const promise = createOrder(cart);
+
+promise.then(function(orderID){
+    console.log("Order ID: ", orderID);
+    return orderID;
+}).then(function(orderID){
+    return proceedToPayment(orderID);
+}).then (function(paymentInfo){
+    console.log("Payment Info: ", paymentInfo);
+}).catch(function(err){
+    console.log("Error: ", err.message);
+});
+
+function createOrder(cart){
+     const pr = new Promise(function(resolve, reject){
+        if(isValidCart(cart))
+        {
+            const orderID = "1223";
+            if(orderID)
+            {
+                resolve(orderID);
+            }
+            else{
+                const err = new Error("Invalid Order");
+                reject(err);
+            }
+        }
+        else{
+            const err = new Error("Invalid Cart");
+            reject(err);
+        }
+     })
+     return pr;
+}
+
+function isValidCart(cart){
+    return Array.isArray(cart) && cart.length > 0;
+}
+
+function proceedToPayment(orderID){
+    const pr = new Promise(function(resolve, reject){
+        resolve(`Payment Info is ${orderID}`);
+    });
+    return pr;
+}
+```
+## [Part 31 Completed](https://www.youtube.com/watch?v=U74BJcr8NeQ&t=1682s&ab_channel=AkshaySaini)
+---
