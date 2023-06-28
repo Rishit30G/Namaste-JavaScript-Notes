@@ -214,6 +214,21 @@ undefined
 Hello World
 ````
 
+```
+foo = 1;
+console.log(foo);
+var foo;
+
+var x; 
+console.log(x);
+x = 1;
+```
+Output: 
+```
+1
+undefined
+```
+
 
 ## [Part-6 Complete](https://www.youtube.com/watch?v=B7iF6G3EyIk&list=PLlasXeu85E9cQ32gLCvAvr9vNaUccPVNP&index=7)
 ---
