@@ -315,6 +315,36 @@ Uncaught TypeError: Assignment to constant variable.
 ```
 - This is because `const` is a constant variable and it is not possible to change the value of it.
 - That's the reason why all the initializations are kept on the top to minimize the temporal dead zone.
+
+- Other Examples 
+```javascript
+//Works fine
+{
+  var y = 10;
+}
+function inner() {
+  console.log(y);
+}
+inner();
+
+// Works fine
+let x = 10;
+function inner() {
+  console.log(x);
+}
+inner();
+
+
+// Gives Error as let is block scoped
+{
+  let z = 10;
+}
+function inner() {
+  console.log(z);
+}
+inner();
+```
+
    
 ## [Part-8 Complete](https://www.youtube.com/watch?v=BNC6slYCj50&list=PLlasXeu85E9cQ32gLCvAvr9vNaUccPVNP&index=9)
 ---
