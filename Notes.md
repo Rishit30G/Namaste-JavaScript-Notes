@@ -265,7 +265,8 @@ undefined
 
 - Hoisting is done for `let` and `const` variables as well, but they are stored in a different meomry space which the users cannot access. (Script)
 - Any line written above `let` variable for accessing it is defiend as `Temporal Dead Zone` for that variable. 
-- `let` and `const` variables give an output of `undefined` on accessing them through the keywords `this` and `window` in global execution 
+- `let` and `const` variables give an output of `undefined` on accessing them through the keywords `this` and `window` in global execution
+- `Let and Const are block Scoped and Var is function scoped`
 ```javascript
 let a = 10;
 let a = 100;
