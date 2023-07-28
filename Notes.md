@@ -7,7 +7,7 @@ JavaScript, often abbreviated JS, is a programming language that is one of the c
 ## "Javascript is a synchronous single-threaded language and everything in it happens inside an execution context"
 
 - This means that it can only move on the next line once the single line operation is complete
-- The execution context consists of Memory(Varibale Enviornment) and Code(Thread of Execution) as two components, the memory component consists of variable and functions as key-value pairs and the code component consists of the instructions that are executed.
+- The execution context consists of Memory(Variable Enviornment) and Code(Thread of Execution) as two components, the memory component consists of variable and functions as key-value pairs and the code component consists of the instructions that are executed.
 
 ```javascript
 // Code Sample
