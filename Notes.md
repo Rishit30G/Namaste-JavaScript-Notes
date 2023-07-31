@@ -124,10 +124,16 @@ var getName  = () =>
 {
     console.log("JavaScript");
 }
+
+// function expresssion
+var b = function () {
+console.log("This declaration makes function not hoisted!");
+}
 ```
 Output would be:
 ```javascript
 undefined
+Not Hoisted
 ```
 Here, the output will be undefined because javascript will take this `var` as a typical variable and not count it as a function. 
 
