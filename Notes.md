@@ -201,8 +201,8 @@ console.log(b);
 
 ## Undefined and Not-Defined 
  
-- `Undefined` in javascript is some `undefined` value given to a variable or function before the execution of the program. It is not considered empty as it consumes memory sapce as well 
-- `Not-Defiend` in javascript is somehing which is not allocated sapce and not declared in the program
+- `Undefined` in javascript is some `undefined` value given to a variable or function before the execution of the program. It is not considered empty as it consumes memory space as well 
+- `Not-Defiend` in javascript is somehing which is not allocated space and not declared in the program
 - JavaScript is `losely typed language`, which means that anything can be allocated to anything i.e. `var` can be allocated as `string`, `int`, `boolean`. 
 
 ````javascript 
