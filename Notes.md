@@ -1921,3 +1921,369 @@ function proceedToPayment(orderID){
 ```
 ## [Part 31 Completed](https://www.youtube.com/watch?v=U74BJcr8NeQ&t=1682s&ab_channel=AkshaySaini)
 ---
+
+## Async Await
+
+- Async is a keyword that is used before a function to make it asyncronous 
+- Async functions always returns a promise, so even if we add boolean, float, string as a return type in async function, it will get wrapped in a promise and then it will be returned 
+- Here are few examples of async functions: 
+
+```javascript
+
+async function getData() {
+  return "Namaste";
+}
+
+const dataPromise = getData();
+dataPromise.then((res) => console.log(res));
+
+```
+Output:
+
+```
+Namaste 
+```
+- In this example we are creating a promise and returning it through an async function 
+
+```javascript 
+
+const p = new Promise((resolve, reject) => {
+    resolve("Promise Resolved Value!!");
+});
+
+async function getData(){
+    return p; 
+}
+
+const dataPromise = getData();
+dataPromise.then((res) => console.log(res));
+
+```
+Output: 
+```
+Promise Resolved Value!!
+```
+
+- Async and Await combination are used to handle promises 
+- Await is used in front of a promise to wait for the promise to resolve and then it will return the value
+- Await can only be used inside an async function
+
+```javascript
+
+const p = new Promise(resolve => {
+    resolve("Promise Resolved Value");
+});
+
+
+async function handlePromise() {
+
+  const val = await p;
+  console.log(val);
+}
+handlePromise();
+
+```
+
+Output: 
+```
+Promise Resolved Value
+```
+### Example 1 
+
+- An example of deplayed promise using async and await vs traditional handling 
+
+```javascript
+
+const p = new Promise(resolve => {
+    setTimeout(() => {
+        resolve("Promise Resolved Value!!")
+    }, 5000);
+});
+
+
+async function handlePromise() {
+
+    // JS Engine will wait for the promise to be resolved 
+    const val = await p;
+    console.log(val);
+    console.log("Hello World");
+}
+handlePromise();
+
+
+function getData(){
+    
+    // JS Engine will not wait for the promise to be resolved 
+    p.then((res) => console.log(res));
+    console.log("Namaste JavaScript");
+}
+
+getData();
+
+
+```
+
+Output (On only executing `handlePromise()`)
+```
+## After 5 seconds.. 
+
+Promise Resolved Value!!
+Hello World
+
+```
+
+Output (On only executing `getData()`)
+```
+Namaste JavaScript
+
+## After 5 seconds..
+
+Promise Resolved Value!!
+```
+
+### Example 2 
+
+- How async await behaves when there is a statement before the await statement 
+
+```javascript 
+
+const p = new Promise(resolve => {
+    setTimeout(() => {
+        resolve("Promise Resolved Value!!");
+    }, 5000);
+});
+
+
+async function handlePromise() {
+
+    console.log("Hello World");
+    const val = await p;
+    console.log(val);
+    console.log("Bye World");
+}
+handlePromise();
+
+```
+
+Output: 
+```
+Hello World
+
+## After 5 seconds 
+
+Promise Resolved Value!!
+Bye World
+```
+
+### Example 3
+
+- Having multiple promises in async await function, with same delay both the promises will be resolved at the same time
+
+```javascript
+
+const p = new Promise(resolve => {
+    setTimeout(() => {
+        resolve("Promise Resolved Value!!");
+    }, 5000);
+});
+
+
+async function handlePromise() {
+
+    console.log("Hello World");
+    const val = await p;
+    console.log(val);
+
+    const val2 = await p;
+    console.log(val2);
+    console.log("Hello World 2");
+}
+handlePromise();
+  
+```
+Output 
+```
+Hello World 
+
+## After 5 seconds
+
+Promise Resolved Value!!
+Promise Resolved Value!!
+Hello World 2
+
+```
+
+### Example 4
+
+- Having multiple promises in async await function, the promise with a higher delay will be resolved first and then the other promise will be resolved in this case first i.e the promise with higher time is resolved and then the promise with lower time is covered in that time
+
+```javascript
+
+const p1 = new Promise(resolve => {
+    setTimeout(() => {
+        resolve("Promise Resolved Value 1!!");
+    }, 2000);
+});
+
+const p2 = new Promise(resolve => {
+    setTimeout(() => {
+        resolve("Promise Resolved Value 2!!");
+    }, 4000);
+});
+
+
+async function handlePromise() {
+
+    console.log("Hello World!!");
+    const val2 = await p2;
+    console.log(val2);
+
+    const val = await p1;
+    console.log(val);
+
+}
+handlePromise();
+
+```
+
+Output:
+
+```
+Hello World!!
+
+## After 4 seconds 
+
+Promise Resolved Value 2!!
+Promise Resolved Value 1!!
+```
+
+### Example 5
+
+- Having multiple promises in async await function, the promise with a higher delay will be resolved first and then the other promise will be resolved in this case first i.e the promise with higher time is resolved and then the promise with lower time is covered in that time
+
+```javascript
+const p1 = new Promise(resolve => {
+    setTimeout(() => {
+        resolve("Promise Resolved Value 1!!");
+    }, 2000);
+});
+
+const p2 = new Promise(resolve => {
+    setTimeout(() => {
+        resolve("Promise Resolved Value 2!!");
+    }, 4000);
+});
+
+
+async function handlePromise() {
+
+    const val = await p1;
+    console.log(val);
+
+    console.log("Hello World!!");
+    const val2 = await p2;
+    console.log(val2);
+
+}
+handlePromise();
+```
+
+Output: 
+```
+## After 2 seconds 
+
+Promise Resolved Value 1!!
+Hello World!!
+
+## After 2 more seconds
+
+Promise Resolved Value 2!!
+```
+
+- What we ideally start thinking is that JavaScript has started waiting for functions but that not true, the fact that time, tide and JavaScript wait for none is 100% true. 
+
+- What is happening is that in the callstack the handlePromise() is called and then the first promise is resolved, after that the handlePromise() moves out of the callstack. 
+
+- Again the ongoing line by line process of JavaScript goes on and when another promise is encountered the handlePromise() is bought to the callstack again and it will continue from where it left off in the suspended state. 
+
+### Fetch API using async-await 
+
+- Fetch is a promise, it gives a response in return, it is a readable stream which needs to converted to JSON which is again a promise that will give a promise in return which can be printed in the console.
+
+```javascript
+
+const API_URL = "https://api.github.com/users/Rishit30G";
+
+async function handlePromise() {
+
+   const data =  await fetch(API_URL);
+
+   const jsonValue = await data.json();
+
+   console.log(jsonValue);
+}
+
+handlePromise();
+
+```
+
+### Handling Errors using APIs 
+
+- It is handled using try and catch block 
+
+```javascript
+
+const API_URL = "https://api.github.com/users/Rishit30G";
+
+async function handlePromise() {
+  try {
+    const data = await fetch(API_URL);
+    const jsonValue = await data.json();
+    console.log(jsonValue);
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+handlePromise();
+
+```
+
+- Another traditional method is by adding a catch statement to the handlePromise() function which is indeed a promise 
+
+```javascript
+const API_URL = "https://api.github.com/users/Rishit30G";
+
+async function handlePromise() {
+    const data = await fetch(API_URL);
+    const jsonValue = await data.json();
+    console.log(jsonValue);
+}
+
+handlePromise().catch((err) => console.log(err));
+```
+
+- Equivalent promise code for better understanding 
+```javascript 
+
+const API_URL = "https://api.github.com/users/Rishit30G";
+
+function handlePromise() {
+    return fetch(API_URL)
+        .then(data => data.json())
+        .then(jsonValue => {
+            console.log(jsonValue);
+            return jsonValue;
+        });
+}
+
+handlePromise().catch((err) => console.log(err));
+
+```
+### Async Await or Promises .then/catch 
+
+- Async Await is just a syntactical sugar over promises, it is just a different way of writing promises
+- It is just a mordern way of writing promises, we don't have to deal with callbacks and promise chaining 
+
+
+## [Part 32 Completed](https://youtu.be/6nv3qy3oNkc?si=u7vvZzV4wbjra8IM)
