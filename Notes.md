@@ -1974,7 +1974,6 @@ function proceedToPayment(orderID){
 ```
 ## [Part 31 Completed](https://www.youtube.com/watch?v=U74BJcr8NeQ&t=1682s&ab_channel=AkshaySaini)
 ---
-<<<<<<< HEAD
 
 ## Async Await
 
@@ -2341,3 +2340,4 @@ handlePromise().catch((err) => console.log(err));
 
 
 ## [Part 32 Completed](https://youtu.be/6nv3qy3oNkc?si=u7vvZzV4wbjra8IM)
+---
