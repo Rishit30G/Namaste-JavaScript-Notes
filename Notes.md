@@ -7,7 +7,7 @@ JavaScript, often abbreviated JS, is a programming language that is one of the c
 ## "Javascript is a synchronous single-threaded language and everything in it happens inside an execution context"
 
 - This means that it can only move on the next line once the single line operation is complete
-- The execution context consists of Memory(Varibale Enviornment) and Code(Thread of Execution) as two components, the memory component consists of variable and functions as key-value pairs and the code component consists of the instructions that are executed.
+- The execution context consists of Memory(Variable Enviornment) and Code(Thread of Execution) as two components, the memory component consists of variable and functions as key-value pairs and the code component consists of the instructions that are executed.
 
 ```javascript
 // Code Sample
@@ -124,10 +124,16 @@ var getName  = () =>
 {
     console.log("JavaScript");
 }
+
+// function expresssion
+var b = function () {
+console.log("This declaration makes function not hoisted!");
+}
 ```
 Output would be:
 ```javascript
 undefined
+Not Hoisted
 ```
 Here, the output will be undefined because javascript will take this `var` as a typical variable and not count it as a function. 
 
@@ -195,8 +201,8 @@ console.log(b);
 
 ## Undefined and Not-Defined 
  
-- `Undefined` in javascript is some `undefined` value given to a variable or function before the execution of the program. It is not considered empty as it consumes memory sapce as well 
-- `Not-Defiend` in javascript is somehing which is not allocated sapce and not declared in the program
+- `Undefined` in javascript is some `undefined` value given to a variable or function before the execution of the program. It is not considered empty as it consumes memory space as well 
+- `Not-Defiend` in javascript is somehing which is not allocated space and not declared in the program
 - JavaScript is `losely typed language`, which means that anything can be allocated to anything i.e. `var` can be allocated as `string`, `int`, `boolean`. 
 
 ````javascript 
@@ -213,6 +219,21 @@ undefined
 10 
 Hello World
 ````
+
+```
+foo = 1;
+console.log(foo);
+var foo;
+
+var x; 
+console.log(x);
+x = 1;
+```
+Output: 
+```
+1
+undefined
+```
 
 
 ## [Part-6 Complete](https://www.youtube.com/watch?v=B7iF6G3EyIk&list=PLlasXeu85E9cQ32gLCvAvr9vNaUccPVNP&index=7)
@@ -265,7 +286,8 @@ undefined
 
 - Hoisting is done for `let` and `const` variables as well, but they are stored in a different meomry space which the users cannot access. (Script)
 - Any line written above `let` variable for accessing it is defiend as `Temporal Dead Zone` for that variable. 
-- `let` and `const` variables give an output of `undefined` on accessing them through the keywords `this` and `window` in global execution 
+- `let` and `const` variables give an output of `undefined` on accessing them through the keywords `this` and `window` in global execution
+- `Let and Const are block Scoped and Var is function scoped`
 ```javascript
 let a = 10;
 let a = 100;
@@ -299,6 +321,36 @@ Uncaught TypeError: Assignment to constant variable.
 ```
 - This is because `const` is a constant variable and it is not possible to change the value of it.
 - That's the reason why all the initializations are kept on the top to minimize the temporal dead zone.
+
+- Other Examples 
+```javascript
+//Works fine
+{
+  var y = 10;
+}
+function inner() {
+  console.log(y);
+}
+inner();
+
+// Works fine
+let x = 10;
+function inner() {
+  console.log(x);
+}
+inner();
+
+
+// Gives Error as let is block scoped
+{
+  let z = 10;
+}
+function inner() {
+  console.log(z);
+}
+inner();
+```
+
    
 ## [Part-8 Complete](https://www.youtube.com/watch?v=BNC6slYCj50&list=PLlasXeu85E9cQ32gLCvAvr9vNaUccPVNP&index=9)
 ---
@@ -733,6 +785,7 @@ function x() {
 x();
 ```
 - In the above code snippet we have used the conept of closures, so that the count variable cannot be accessed outside the function.
+- `let` is used instead of `var` so that it block scoped i.e value cannot be modified beyond the function 
 
 - Event Listeners are heavy, it takes memory, so whenever you attach an event listener it forms a closure and even when the call stack is empty, still the program will not free up that memory because you never know when someone can click on that button and might need this closure to function  
 - So once we remove this event listener, so all the varibales that were held by this closure are garbage collected 
@@ -1921,6 +1974,7 @@ function proceedToPayment(orderID){
 ```
 ## [Part 31 Completed](https://www.youtube.com/watch?v=U74BJcr8NeQ&t=1682s&ab_channel=AkshaySaini)
 ---
+<<<<<<< HEAD
 
 ## Async Await
 
@@ -2287,3 +2341,5 @@ handlePromise().catch((err) => console.log(err));
 
 
 ## [Part 32 Completed](https://youtu.be/6nv3qy3oNkc?si=u7vvZzV4wbjra8IM)
+=======
+>>>>>>> 511bce6ae569a52dc273ec88804168e72d00219b
