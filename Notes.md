@@ -2341,3 +2341,155 @@ handlePromise().catch((err) => console.log(err));
 
 ## [Part 32 Completed](https://youtu.be/6nv3qy3oNkc?si=u7vvZzV4wbjra8IM)
 ---
+
+## Promise APIs 
+
+### Promise.all()
+- `Promise.all()` is used to run multiple promises in parallel, it takes an array of promises as an argument and returns a promise
+- It is used to run multiple promises in parallel and wait for all of them to complete and then do something with the result
+- If one of them fails, then the entire promise.all() fails 
+
+```javascript
+const p1 = new Promise((resolve) => {
+  setTimeout(() => {
+    resolve("Promise Resolved Value 1!!");
+  }, 1000);
+});
+
+const p2 = new Promise((resolve) => {
+  setTimeout(() => {
+    resolve("Promise Resolved Value 2!!");
+  }, 10000);
+});
+
+const p3 = new Promise((resolve, reject) => {
+  setTimeout(() => {
+    reject("Promise Rejected Value 3!!");
+  }, 2000);
+});
+
+async function handlePromise() {
+  const result = await Promise.all([p1, p2, p3]);
+  console.log(result);
+}
+
+handlePromise();
+```
+
+Output: 
+```
+Will get error after 2 seconds, all promises will fail
+
+```
+
+### Promise.allSettled()
+- `Promise.allSettled()` returns a promise that resolves after all of the given promises have either fulfilled or rejected, with an array of objects that each describes the outcome of each promise.
+
+```javascript 
+const p1 = new Promise((resolve) => {
+  setTimeout(() => {
+    resolve("Promise Resolved Value 1!!");
+  }, 1000);
+});
+
+const p2 = new Promise((resolve) => {
+  setTimeout(() => {
+    resolve("Promise Resolved Value 2!!");
+  }, 10000);
+});
+
+const p3 = new Promise((resolve, reject) => {
+  setTimeout(() => {
+    reject("Promise Rejected Value 3!!");
+  }, 2000);
+});
+
+async function handlePromise() {
+  const result = await Promise.allSettled([p1, p2, p3]);
+  console.log(result);
+}
+
+handlePromise();
+```
+Output: 
+```
+[
+  { status: 'fulfilled', value: 'Promise Resolved Value 1!!' },
+  { status: 'fulfilled', value: 'Promise Resolved Value 2!!' },
+  { status: 'rejected', reason: 'Promise Rejected Value 3!!' }
+]
+```
+
+### Promise.race()
+- `Promise.race()` returns a promise that fulfills or rejects as soon as one of the promises in an iterable fulfills or rejects, with the value or reason from that promise.
+
+```javascript
+const p1 = new Promise((resolve) => {
+  setTimeout(() => {
+    resolve("Promise Resolved Value 1!!");
+  }, 1000);
+});
+
+const p2 = new Promise((resolve) => {
+  setTimeout(() => {
+    resolve("Promise Resolved Value 2!!");
+  }, 10000);
+});
+
+const p3 = new Promise((resolve, reject) => {
+  setTimeout(() => {
+    reject("Promise Rejected Value 3!!");
+  }, 2000);
+});
+
+async function handlePromise() {
+  const result = await Promise.race([p1, p2, p3]);
+  console.log(result);
+}
+
+handlePromise();
+```
+Output: 
+```
+
+Promise Resolved Value 1 
+
+```
+### Promise.any()
+- `Promise.any()` takes an iterable of Promise objects and, as soon as one of the promises in the iterable fulfills, returns a single promise that resolves with the value from that promise. If no promises in the iterable fulfill (if all of the given promises are rejected), then the returned promise is rejected with an AggregateError, a new subclass of Error that groups together individual errors.
+
+
+```javascript
+const p1 = new Promise((resolve) => {
+  setTimeout(() => {
+    resolve("Promise Resolved Value 1!!");
+  }, 1000);
+});
+
+const p2 = new Promise((resolve) => {
+  setTimeout(() => {
+    resolve("Promise Resolved Value 2!!");
+  }, 10000);
+});
+
+const p3 = new Promise((resolve, reject) => {
+  setTimeout(() => {
+    reject("Promise Rejected Value 3!!");
+  }, 2000);
+});
+
+async function handlePromise() {
+  const result = await Promise.any([p1, p2, p3]);
+  console.log(result);
+}
+
+handlePromise();
+```
+Output: 
+```
+Promise Resolved Value 1!! 
+
+// Whichever promise gets fulfilled first, that value will be returned
+// Incase all the promises are rejected then it will throw an AggregateError 
+
+```
