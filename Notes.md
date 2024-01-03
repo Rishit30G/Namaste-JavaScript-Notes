@@ -2493,3 +2493,154 @@ Promise Resolved Value 1!!
 // Incase all the promises are rejected then it will throw an AggregateError 
 
 ```
+
+## [Part 33 Completed](https://youtu.be/DlTVt1rZjIo)
+---
+
+## `this` Keyword 
+
+- The `this` keyword in the global space will represent the global object, it is 'window' in case of browser, and incase of NodeJS it will represent the 'global'
+
+- `this` keyword inside a function with strict mode 
+```javascript 
+"use strict";
+
+function x(){
+    // Depends on strict / non-strict mode
+    console.log(this);
+}
+x();
+
+```
+
+Output: 
+```javascript
+// Strict 
+undefined 
+
+// Non Strict
+Window Object 
+```
+ 
+- If the value of this keyword is undefined or null, then `this` keyowrd will be replaced with the gloablObject only in case of non strict mode, but in case of strict mode it will remain undefined or null, this is called `this substitution`
+
+- `this` keyword value depends on how the function is called 
+```javascript
+x(); 
+window.x(); 
+```
+
+Output: 
+```javascript
+//Strict 
+undefined 
+windowObject 
+
+//Non Strict 
+windowObject
+windowObject
+```
+
+- `this` keyword in object method
+```javascript
+"use strict"
+
+const obj = {
+    name: "James", 
+    x: function(){
+        console.log(this);
+    }
+}
+
+obj.x(); 
+```
+
+Output: 
+```javascript
+//Strict
+{name: "James", x: ƒ}
+
+//Non Strict
+{name: "James", x: ƒ}
+```
+
+- `this` keyword in call, apply and bind 
+
+```javascript 
+"use strict"
+
+const student = {
+    name: "James", 
+    printName: function(){
+        console.log(this.name);
+    }
+}
+
+student.printName();
+
+const student2 = {
+    name: "John"
+}
+
+student.printName.call(student2); // Call method takes the object as an argument and then it will call the function with the object as the value of `this` keyword
+```
+
+Output: 
+```javascript
+James
+John
+``` 
+
+- `this` keyword in arrow function behaves differently than normal function, it is lexically scoped, it will take the value from the parent scope 
+
+
+#### Example 1
+```javascript
+// var a = 10; 
+const obj = {
+    a: 10, 
+    x: () => {
+        console.log(this.a);
+    },
+}
+obj.x();
+```
+
+Output:
+```javascript 
+// If var a = 10 is not commented 
+10
+
+// If var a = 10 is commented
+windowObject  
+```
+
+#### Example 2
+```javascript
+const obj2 = {
+    a: 10, 
+    x: function (){
+        const y = () =>{
+            console.log(this);
+        }
+        y();
+    }
+}
+obj2.x();
+```
+
+Output: 
+```javascript
+{a: 10, x: f}
+```
+
+- `this` inside DOM elements:  It will give reference to the HTMLelement 
+```html 
+<button onClick="alert(this)"> Click Me </button>
+```
+
+Output: 
+```javascript
+[object HTMLButtonElement]
+```
+
