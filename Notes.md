@@ -1813,7 +1813,7 @@ promise.then(function(orderId){
 ```
 - Promise is an object which has a function called `then` which takes a callback function as an argument
 - It is undefined in the beginning but when the promise is resolved then it gets the data
-- createOrder API is an asnyc operation and it returns a promise object
+- createOrder API is an async operation and it returns a promise object
 - The promise object will be filled with the value after an async time, meanwhile other lines of code will be executed 
 <br></br>
 
